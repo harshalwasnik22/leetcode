@@ -7,18 +7,18 @@ using namespace std;
 class Solution {
   public:
   
-    int func(int ind, vector<int> &A, vector<int> &height){
-        if(ind == 0) return 0;
-        if(A[ind] != -1) return A[ind];
-        int left = func(ind-1,A,height) + abs(height[ind] - height[ind-1]);
-        int right = INT_MAX;
-        if(ind > 1) right = func(ind-2,A,height) + abs(height[ind] - height[ind-2]);
-        return A[ind] = min(left,right);
-    }
+    
     int minimumEnergy(vector<int>& height, int n) {
-        vector<int> dp(n+1, -1);
-        return func(n-1, dp, height);
-       
+        vector<int> dp(n, -1);
+        dp[0] = 0;
+        for(int i=1;i<n;i++){
+            int fs = dp[i-1] + abs(height[i] - height[i-1]);
+            int ss = INT_MAX;
+            if(i > 1) ss = dp[i-2] + abs(height[i] - height[i-2]);
+
+            dp[i] = min(fs,ss);
+        }
+        return dp[n-1];
     }
 };
 
