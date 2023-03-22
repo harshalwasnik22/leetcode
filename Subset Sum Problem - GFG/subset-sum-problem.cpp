@@ -10,20 +10,32 @@ using namespace std;
 class Solution{   
 public:
 
-    bool f(int ind, int sum, vector<int> &a, vector<vector<int>> &dp){
-        if(sum == 0) return 1;
-        if(ind == 0) return (a[0]==sum);
-        if(dp[ind][sum] != -1) return dp[ind][sum];
-        bool nottake = f(ind-1, sum,a,dp);
-        bool take = false;
-        if(sum >= a[ind]) take = f(ind-1, sum-a[ind],a,dp);
-        return dp[ind][sum] = take | nottake;
-    }
+    // bool f(int ind, int sum, vector<int> &a, vector<vector<int>> &dp){
+    //     if(sum == 0) return 1;
+    //     if(ind == 0) return (a[0]==sum);
+    //     if(dp[ind][sum] != -1) return dp[ind][sum];
+    //     bool nottake = f(ind-1, sum,a,dp);
+    //     bool take = false;
+    //     if(sum >= a[ind]) take = f(ind-1, sum-a[ind],a,dp);
+    //     return dp[ind][sum] = take | nottake;
+    // }
     bool isSubsetSum(vector<int>arr, int sum){
-        vector<vector<int>> dp(arr.size(), vector<int>(sum+1, -1));
+        int n = arr.size();
+        vector<vector<bool>> dp(n, vector<bool>(sum+1, false));
         
-        for(int i-)
-        return f(arr.size()-1, sum, arr,dp);
+        for(int i=0;i<n;i++) dp[i][0] = true;
+        
+        if(arr[0]<=sum) dp[0][arr[0]] = true;
+        
+        for(int i=1;i<n;i++){
+            for(int k=1;k<=sum;k++){
+                bool nottake = dp[i-1][k];
+                bool take = false;
+                if(k >= arr[i]) take = dp[i-1][k-arr[i]];
+                dp[i][k] = take | nottake;
+            }
+        }
+        return dp[n-1][sum];
     }
 };
 
