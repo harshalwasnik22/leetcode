@@ -23,28 +23,57 @@ class Solution
     //     }
     //     return dp[ind][W] =  max(nottake, take);
     // }
+    int dp[1001][1001];
+    // dp[ind][W] = till index ind, if knapsack weight is W, then what is max imum value of subset i can acchieve
+    int helper(int W, int wt[], int val[], int n, int ind)
+    {
+        if(ind==n || W==0) return 0;
+        if(dp[ind][W]!=-1) return dp[ind][W];
+        int nottake = helper(W,wt,val,n,ind+1);
+        int take = INT_MIN;
+        if(wt[ind]<=W)
+        take = val[ind]+helper(W-wt[ind],wt,val,n,ind+1);
+        dp[ind][W] = max(take,nottake);
+        return dp[ind][W];
+    }
     
     int knapSack(int W, int wt[], int val[], int n) 
     { 
-       vector<vector<int>> dp(n, vector<int> (W+1, 0));
+        memset(dp,-1,sizeof(dp));
+        return helper(W,wt,val,n,0);
+    //   vector<vector<int>> dp(n, vector<int> (W+1, 0));
        
-       for(int i=wt[0];i<=W;i++) dp[0][i]=val[0]; 
+    //   for(int i=wt[0];i<=W;i++) dp[0][i]=val[0]; 
        
-       for(int ind=1;ind<n;ind++){
-           for(int w=0;w<=W;w++){
+    //   for(int i=0;i<n;i++){
+    //         for(int j=0;j<W+1;j++){
+    //             cout << dp[i][j] << " ";
+    //         }
+    //         cout << endl;
+    //     }
+    //     for(int ind=1;ind<n;ind++){
+    //       for(int w=0;w<=W;w++){
                 
-                int nottake = 0 + dp[ind-1][w];
+    //             int nottake = dp[ind-1][w];
                     
-                int take = INT_MIN;
-                if(wt[ind]<=w ){
-                    take = val[ind] + dp[ind-1][w-wt[ind]];
-                }
+    //             int take = INT_MIN;
+    //             if(wt[ind]<=w){
+    //                 take = val[ind] + dp[ind-1][w-wt[ind]];
+    //             }
                 
-                dp[ind][w] =  max(nottake, take);
-            }
-        }
+    //             dp[ind][w] =  max(nottake, take);
+    //         }
+    //     }
         
-        return dp[n-1][W];
+    //     for(int i=0;i<n;i++){
+    //         for(int j=0;j<W+1;j++){
+    //             cout << dp[i][j] << " ";
+    //         }
+    //         cout << endl;
+    //     }
+        
+    //     return dp[n-1][W];
+    
     }
 };
 
