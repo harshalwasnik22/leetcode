@@ -25,22 +25,37 @@ class Solution
     // }
     int dp[1001][1001];
     // dp[ind][W] = till index ind, if knapsack weight is W, then what is max imum value of subset i can acchieve
-    int helper(int W, int wt[], int val[], int n, int ind)
-    {
-        if(ind==n || W==0) return 0;
-        if(dp[ind][W]!=-1) return dp[ind][W];
-        int nottake = helper(W,wt,val,n,ind+1);
-        int take = INT_MIN;
-        if(wt[ind]<=W)
-        take = val[ind]+helper(W-wt[ind],wt,val,n,ind+1);
-        dp[ind][W] = max(take,nottake);
-        return dp[ind][W];
-    }
+    // int helper(int W, int wt[], int val[], int n, int ind)
+    // {
+    //     if(ind==n || W==0) return 0;
+    //     if(dp[ind][W]!=-1) return dp[ind][W];
+    //     int nottake = helper(W,wt,val,n,ind+1);
+    //     int take = INT_MIN;
+    //     if(wt[ind]<=W)
+    //     take = val[ind]+helper(W-wt[ind],wt,val,n,ind+1);
+    //     dp[ind][W] = max(take,nottake);
+    //     return dp[ind][W];
+    // }
     
     int knapSack(int W, int wt[], int val[], int n) 
     { 
         memset(dp,-1,sizeof(dp));
-        return helper(W,wt,val,n,0);
+        for(int i=0;i<=W;i++) dp[0][i] = 0;
+        for(int i=1;i<=n;i++)
+        {
+            for(int w=0;w<=W;w++)
+            {
+                int nottake = dp[i-1][w];
+                int take = INT_MIN;
+                if(wt[i-1]<=w)
+                {
+                    take = val[i-1]+dp[i-1][w-wt[i-1]];
+                }
+                dp[i][w] = max(take,nottake);
+            }
+        }
+        return dp[n][W];
+        
     //   vector<vector<int>> dp(n, vector<int> (W+1, 0));
        
     //   for(int i=wt[0];i<=W;i++) dp[0][i]=val[0]; 
