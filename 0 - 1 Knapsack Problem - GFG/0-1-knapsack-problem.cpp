@@ -31,16 +31,17 @@ class Solution
        for(int i=wt[0];i<=W;i++) dp[0][i]=val[0]; 
        
        for(int ind=1;ind<n;ind++){
-           for(int cap=0; cap<=W; cap++){
-            
-            int notTaken = 0 + dp[ind-1][cap];
-            
-            int taken = INT_MIN;
-            if(wt[ind] <= cap)
-                taken = val[ind] + dp[ind-1][cap - wt[ind]];
+           for(int w=0;w<=W;w++){
                 
-            dp[ind][cap] = max(notTaken, taken);
-        }
+                int nottake = 0 + dp[ind-1][w];
+                    
+                int take = INT_MIN;
+                if(wt[ind]<=w ){
+                    take = val[ind] + dp[ind-1][w-wt[ind]];
+                }
+                
+                dp[ind][w] =  max(nottake, take);
+            }
         }
         
         return dp[n-1][W];
