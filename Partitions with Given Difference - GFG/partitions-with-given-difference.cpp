@@ -3,35 +3,23 @@
 using namespace std;
 
 // } Driver Code Ends
-
-int mod = 1e9+7;
 class Solution {
   public:
-  
-    int f(int ind, vector<int> &arr, vector<vector<int>> &dp, int sum){
-        if(ind == 0)
-        {
-            if(sum==0 && arr[0]==0)  return 2;
-            if(sum==0 || arr[0]==sum) return 1;
-            return 0;
-        }
-        if(dp[ind][sum] != -1) return dp[ind][sum];
-        
-        int nottake = f(ind-1, arr, dp, sum)%mod;
-        int take = false;
-        if(arr[ind] <= sum) take = f(ind-1,arr,dp,sum-arr[ind])%mod;
-        return dp[ind][sum] = (take%mod + nottake%mod)%mod;
-	}
-	
+    int M = 1e9+7;
+    int f(int ind, int sum, vector<int>& arr, vector<vector<int>> &dp){
+        if(ind<0) return sum==0;
+        if(dp[ind][sum]!=-1) return dp[ind][sum];
+        int ans = f(ind-1, sum, arr, dp)%M;
+        if(arr[ind]<=sum) ans += f(ind-1, sum-arr[ind], arr, dp)%M;
+        return dp[ind][sum] = ans%M;
+    }
     int countPartitions(int n, int d, vector<int>& arr) {
         int sum=0;
         for(int i=0;i<n;i++) sum+=arr[i];
         int target = (sum-d)/2;
-        if(sum-d<0) return 0;
-        if((sum-d)&1) return 0;
-        vector<vector<int>> dp(n,vector<int> (target+1,-1));
-        return f(n-1,arr,dp,target);
-        
+        if(sum-d <0 || (sum-d)&1 ) return 0;
+        vector<vector<int>> dp(n, vector<int>(target+1, -1));
+        return f(n-1, target, arr, dp);
     }
 };
 
