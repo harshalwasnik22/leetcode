@@ -26,7 +26,7 @@ arr[] = {1, 1, 1, 1}
 <span style="font-size:18px">You don't have to read input or print anything. Your task is to complete the function&nbsp;<strong>countPartitions()&nbsp;</strong>which takes the integer&nbsp;<strong>n</strong>&nbsp;and <strong>d</strong> and array <strong>arr</strong> and returns the count of partitions.</span></p>
 
 <p><strong><span style="font-size:18px">Constraint:</span></strong><br>
-<span style="font-size:18px">1 &lt;= n &lt;= 50<br>
+<span style="font-size:18px">1 &lt;= n &lt;= 500<br>
 0 &lt;= d&nbsp; &lt;= 2500<br>
 0 &lt;= arr[i] &lt;= 50</span></p>
 
