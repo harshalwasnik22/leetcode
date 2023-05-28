@@ -6,34 +6,38 @@ using namespace std;
 class Solution{
 
   public:
-	int minDifference(int nums[], int n)  { 
-	   // int n = nums.size();
-        int target = 0;
-        for(int i=0;i<n;i++) target += nums[i];
-
-        vector<vector<bool>> dp(n, vector<bool> (target+1, false));
-        for(int i=0; i<n;i++) dp[i][0] = true;
-        if(nums[0]<=target) dp[0][nums[0]] =true;
-
-        for(int i=1;i<n;i++){
-            for(int k=1;k<=target;k++){
-                bool nottake = dp[i-1][k];
-
-                bool take = false;
-                if(nums[i] <= k) take = dp[i-1][k-nums[i]];
-
-                dp[i][k] = take || nottake;
-            }
+  
+    bool f(int ind, int target, int arr[], vector<vector<int>> &dp){
+        if(target == 0) return dp[ind][target] = 1;
+        if(ind == 0) return dp[ind][target] = (arr[0] == target);
+        
+        if(dp[ind][target]!=-1) return dp[ind][target];
+        
+        bool nottake = f(ind-1, target, arr, dp);
+        bool take = false;
+        if(arr[ind]<=target){
+            take = f(ind-1, target-arr[ind], arr, dp);
         }
         
-        int mini = 1e9;
-        for (int i = 0; i <= target; i++) {
-            if (dp[n - 1][i] == true) {
-                int diff = abs(i - (target - i));
-                mini = min(mini, diff);
+        return dp[ind][target] = take || nottake;
+    }
+    
+	int minDifference(int arr[], int n)  
+	{ 
+	    int sum=0;
+        for(int i=0;i<n;i++) sum+=arr[i];
+        vector<vector<int>> dp(n, vector<int> (sum+1, -1));
+        for(int i=0;i<=sum;i++){
+            bool d = f(n-1,i,arr,dp);
+        }
+        
+        int mii = 1e8;
+        for(int i=0;i<=sum;i++){
+            if(dp[n-1][i] == true){
+                mii = min(mii, abs(i-(sum-i)));
             }
         }
-        return mini;
+        return mii;
 	} 
 };
 
