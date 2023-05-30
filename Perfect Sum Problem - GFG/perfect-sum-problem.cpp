@@ -11,12 +11,12 @@ public:
     int fn(int ind, int sum, int arr[], vector<vector<int>> &dp){
         if(ind<0) return sum==0;
         if(dp[ind][sum]!=-1) return dp[ind][sum];
-        int ans = fn(ind-1, sum, arr, dp)%M;
-        if(arr[ind]<=sum) ans += fn(ind-1, sum-arr[ind], arr, dp)%M;
-        return dp[ind][sum] = ans%M;
+        int nottake = fn(ind-1, sum, arr, dp)%M;
+        int take = 0;
+        if(arr[ind]<=sum) take += fn(ind-1, sum-arr[ind], arr, dp)%M;
+        return dp[ind][sum] = (take + nottake)%M;
     }
     int perfectSum(int arr[], int n, int sum){
-            // Your code goes here
             vector<vector<int>> dp(n, vector<int>(sum+1, -1));
             return fn(n-1, sum, arr, dp);
     }
