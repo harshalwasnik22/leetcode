@@ -8,24 +8,29 @@ using namespace std;
 
 class Solution {
   public:
-  void dfs(int i, vector<vector<int>> &M, vector<bool> &vis){
-        vis[i] = 1;
-        for(int j=0;j<M.size();j++){
-            if(!vis[j] && M[i][j]==1) dfs(j,M,vis);
-        }
-    } 
-    int numProvinces(vector<vector<int>> M, int V) {
-        // code here
-        vector<bool> vis(V,0);
-        int c=0;
-        for(int i=0;i<V;i++){
+  
+    void dfs(int i, vector<vector<int>> &adj, vector<bool> &vis){
+       vis[i] = 1;
+       for(int j=0;j<adj.size();j++){
+           if(!vis[j] && adj[i][j]==1) dfs(j, adj ,vis);
+       }
+    }
+
+    int numProvinces(vector<vector<int>> adj, int V) {
+        int n = adj.size();
+        int m = adj[0].size();
+        int c = 0;
+        vector<bool> vis(n, false);
+        
+        for(int i=0;i<n;i++){
             if(!vis[i]){
                 c++;
-                dfs(i,M,vis);
+                dfs(i,adj,vis);
             }
         }
         return c;
     }
+    
 };
 
 //{ Driver Code Starts.
