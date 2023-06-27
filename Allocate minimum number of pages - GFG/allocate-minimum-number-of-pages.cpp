@@ -17,13 +17,12 @@ class Solution
         int students=1;
         int pages=0;
         for(int i=0;i<N;i++){
-            if(A[i] > mid) return false;
-            if(pages+A[i] > mid){
+            if(pages+A[i] <= mid) pages+=A[i];
+            else{
                 students++;
-                pages=0;
-                pages+=A[i];
-            }
-            else pages+=A[i];
+                pages=A[i];
+                
+            } 
         }
         if(students > M) return false;
         return true;
